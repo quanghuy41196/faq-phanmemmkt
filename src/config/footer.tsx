@@ -2,11 +2,11 @@ import { ConfigListMXHType, configFooterType } from "@/types";
 import { Fragment } from "react";
 import { BsFillBuildingFill } from "react-icons/bs";
 import {
-    FaInternetExplorer,
-    FaTelegram,
-    FaTiktok,
-    FaUsers,
-    FaYoutube,
+  FaInternetExplorer,
+  FaTelegram,
+  FaTiktok,
+  FaUsers,
+  FaYoutube,
 } from "react-icons/fa";
 import { HiPhone } from "react-icons/hi";
 import { MdEmail } from "react-icons/md";
@@ -183,8 +183,8 @@ export const LinkTypeFooter: configFooterType[] = [
       return (
         <iframe
           name="fd1d6468386501d17"
-          width="1000px"
-          height="1000px"
+          width="100%"
+          height="100%"
           data-testid="fb:page Facebook Social Plugin"
           title="fb:page Facebook Social Plugin"
           frameBorder="0"

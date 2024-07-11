@@ -10,7 +10,7 @@ const BoxItem: FC<BoxItemProps> = ({ src, title }) => {
   return (
     <div className="flex flex-col gap-3 items-center">
       {src && (
-        <div className="w-[224px] h-[228px] flex items-center justify-center">
+        <div className="w-[224px] h-[228px] flex items-center justify-center flex-shrink-0">
           <Image width={224} height={228} src={src} alt={title ?? ""} property="" />
         </div>
       )}

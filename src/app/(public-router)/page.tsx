@@ -35,7 +35,7 @@ const listBox = [
 const HomePage = () => {
   return (
     <div className="flex mt-3">
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid max-1370:grid-cols-2 1370:grid-cols-3 max-sm:grid-cols-1 gap-5">
         {listBox.map((item, index) => (
           <BoxItem key={index} src={item?.src} title={item?.title} />
         ))}

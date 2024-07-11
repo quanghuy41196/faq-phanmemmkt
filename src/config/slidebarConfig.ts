@@ -10,24 +10,24 @@ import { routerPath } from "./router";
 export const slidebarConfig: slidebarConfigProps[] = [
   { title: "Quản Lý", isHeader: true, Icon: RiDashboardFill },
   {
-    title: "Sản phẩm",
+    title: "Tính năng",
     Icon: AiFillProduct,
-    path: joinPathParent(routerPath.admin, routerPath.product),
+    path: joinPathParent(routerPath.admin, routerPath.feature),
   },
   {
-    title: "Danh mục",
+    title: "Banner",
     Icon: TbCategory2,
-    path: joinPathParent(routerPath.admin, routerPath.category),
+    path: joinPathParent(routerPath.admin, routerPath.banner),
   },
   {
-    title: "Bài viết",
+    title: "Đối tác",
     Icon: MdPostAdd,
-    path: joinPathParent(routerPath.admin, routerPath.post),
+    path: joinPathParent(routerPath.admin, routerPath.trusted),
   },
 
   {
-    title: "Nhóm",
+    title: "Quảng cáo",
     Icon: LiaObjectUngroupSolid,
-    path: joinPathParent(routerPath.admin, routerPath.group),
+    path: joinPathParent(routerPath.admin, routerPath.advertisement),
   },
 ];

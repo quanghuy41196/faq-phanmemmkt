@@ -2,6 +2,9 @@ import { listNavHeaderParmas } from "@/types";
 
 export const site = {
   name: "Phần mềm MKT",
+  copyright: `© Copyright 2013 by phần mềm MKT – Website đang chờ đăng ký với bộ
+          công thương, nghiêm cấm sao chép dưới mọi hình thức. Mọi hành vi sao
+          chép sẽ chịu hoàn toàn trách nhiệm`,
 };
 
 export const headersFormData = {

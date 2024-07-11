@@ -1,39 +1,22 @@
 import StaticImages from "@/assets/images";
-import { LinkTypeFooter } from "@/config";
+import { LinkTypeFooter, site } from "@/config";
 import Image from "next/image";
 import { Fragment } from "react";
 import { FaCircle } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
+import Trusted from "./Trusted";
 
 const FooterPublic = () => {
   return (
     <div>
-      <div className="bg-white shadow-modal px-16 container rounded-[30px] py-6 flex flex-col items-center translate-y-1/2 relative z-10">
-        <h2 className="text-xl text-[#0e206d] font-medium text-center w-fit relative pb-2">
-          Được tin dùng bởi
-          <span className="block w-1/3 bg-[#0e206d] h-1 absolute left-1/2 -translate-x-1/2 bottom-0"></span>
-        </h2>
-
-        <div className="mt-5">
-          <div className="h-[100px]">
-            <Image
-              src={
-                "https://phanmemmkt.vn/wp-content/uploads/2024/04/Artboard-20@2x-1024x512.png"
-              }
-              alt="ss"
-              width={200}
-              height={100}
-            />
-          </div>
-        </div>
-      </div>
+      <Trusted />
       <footer
         className="bg-center bg-no-repeat bg-cover pt-32 relative"
         style={{
           backgroundImage: `url('${StaticImages.bg_footer.src}')`,
         }}
       >
-        <div className="px-5 pt-5 pb-10">
+        <div className="px-5 pt-5 pb-10 relative z-[1]">
           <div className="container">
             <div className="flex flex-row-reverse justify-end items-center">
               <div className="w-[250px] h-[59px] mr-9">
@@ -107,7 +90,7 @@ const FooterPublic = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0">
+        <div className="absolute bottom-0 z-0">
           <Image
             src={StaticImages.MIX04698_ly1}
             alt="lyly"
@@ -118,7 +101,7 @@ const FooterPublic = () => {
         </div>
 
         <div
-          className="absolute bottom-0 right-6"
+          className="absolute bottom-0 right-6 z-0"
           style={{
             backgroundColor: "#023171",
           }}
@@ -126,7 +109,7 @@ const FooterPublic = () => {
           <Image
             src={StaticImages.BANDOVIETNAM}
             alt="lyly"
-            width={260}
+            width={258}
             // height={280}
             priority
           />
@@ -138,11 +121,7 @@ const FooterPublic = () => {
           background: `linear-gradient(90deg,rgba(24,98,171,1) 0%,rgba(29,159,218,1) 35%,rgba(24,98,171,1) 100%)`,
         }}
       >
-        <p className="container text-sm">
-          © Copyright 2013 by phần mềm MKT – Website đang chờ đăng ký với bộ
-          công thương, nghiêm cấm sao chép dưới mọi hình thức. Mọi hành vi sao
-          chép sẽ chịu hoàn toàn trách nhiệm
-        </p>
+        <p className="container text-sm">{site.copyright}</p>
       </div>
     </div>
   );

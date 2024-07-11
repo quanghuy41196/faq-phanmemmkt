@@ -1,5 +1,5 @@
-export * from "./category";
-export * from "./group";
-export * from "./posts";
-export * from "./products";
+export * from "./advertisement";
+export * from "./banner";
+export * from "./feeature";
+export * from "./trusted";
 

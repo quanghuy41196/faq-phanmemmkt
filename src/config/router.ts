@@ -1,12 +1,12 @@
 export const routerPath = {
   home: "/",
-  product: "/products",
-  category: "/category",
-  post: "/posts",
+  feature: "/feature",
+  banner: "/banner",
+  trusted : "/trusted",
   admin: "/admin",
   auth: "/auth",
   login: "/login",
-  group: "/group",
+  advertisement: "/advertisement",
   docs: "/docs",
   search: "/search"
 };

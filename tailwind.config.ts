@@ -25,7 +25,8 @@ const config: Config = {
         "2k": "2560px",
         "1380": "1380px",
         984: "984px",
-        1496: "1496px"
+        1496: "1496px",
+        1370: "1370px"
       },
       boxShadow: {
         modal:
@@ -107,7 +108,6 @@ const config: Config = {
         sm: "600px",
         md: "728px",
         lg: "984px",
-        xl: "1240px",
         "2xl": "1240px",
       },
     },

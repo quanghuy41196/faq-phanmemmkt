@@ -467,6 +467,11 @@ div[role="dialog"]:focus-visible {
   overflow: hidden;
 }
 
-.swiper-pagination-bullet-active {
-  background-color: "#ffc936" !important;
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background-color: #ffc936 !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: white !important;
+  opacity: 0.9;
 }

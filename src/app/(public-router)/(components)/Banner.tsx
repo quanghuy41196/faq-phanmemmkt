@@ -28,15 +28,15 @@ const Banner = () => {
   return (
     <Swiper
       className="h-[600px]"
-    //   loop
+      loop
       effect="fade"
       pagination={{
         dynamicBullets: true,
         clickable: true,
       }}
-    //   autoplay={{
-    //     delay: 5000,
-    //   }}
+      autoplay={{
+        delay: 2500,
+      }}
       modules={[Pagination, Autoplay, EffectFade]}
     >
       {listBanner?.map((item, index) => {

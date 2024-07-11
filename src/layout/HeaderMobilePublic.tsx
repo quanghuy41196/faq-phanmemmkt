@@ -12,8 +12,15 @@ const HeaderMobilePublic = () => {
 
   const scrollHeader = useCallback(() => {
     const elemHeader = document.getElementById("header");
+    const allQC: NodeListOf<HTMLDivElement> = document.querySelectorAll(".qc");
     if (elemHeader) {
+      const { height } = elemHeader.getBoundingClientRect();
       const y = window.scrollY;
+
+      allQC?.forEach((elem) => {
+        elem.style.top = `${height + 10}px`;
+        elem.classList.add("scroll");
+      });
 
       if (y > 0) {
         elemHeader.classList.add("shadow-modal");
