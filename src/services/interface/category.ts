@@ -1,4 +1,5 @@
 import { IConfigSearchDefault, IFormDefault } from "./default";
+import { IPost } from "./posts";
 
 export interface ICategory {
   id: string;
@@ -8,6 +9,7 @@ export interface ICategory {
   description: string;
   createdAt: string;
   updateAt: string;
+  posts: IPost
 }
 
 export interface IFormCategory extends IFormDefault {
