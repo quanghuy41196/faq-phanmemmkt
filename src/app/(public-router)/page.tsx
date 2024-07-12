@@ -5,7 +5,13 @@ import { use } from "react";
 import BoxItem from "./(components)/BoxItem";
 
 const HomePage = () => {
-  const dataCategory = use(getFetchAllCategory({}));
+  const dataCategory = use(
+    getFetchAllCategory({
+      search: {
+        includes: "posts",
+      },
+    })
+  );
 
   return (
     <div className="flex mt-3">
@@ -13,7 +19,7 @@ const HomePage = () => {
         {(dataCategory?.items ?? [])?.map((item) => {
           return (
             <BoxItem
-              href={joinPathParent(routerPath.post, "phan-mem-content-ai")}
+              href={joinPathParent(routerPath.post, item?.posts?.slug ?? "")}
               key={item?.id}
               src={item?.icon}
               title={item?.name}
