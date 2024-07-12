@@ -13,38 +13,25 @@ export const configTablePosts = ({
   return [
     {
       accessor: "title",
+      title: "Tiêu đề",
       sortable: true,
-      title: "Tiều đề",
-      render: ({ title }) => <SliceHoverEllipsis value={title} max={35} />,
+      render: ({ title }) => <SliceHoverEllipsis value={title} max={50} />,
     },
 
     {
       accessor: "slug",
       sortable: true,
-      title: "Đường dẫn",
+      title: "Liên kết",
       render: ({ slug }) => <SliceHoverEllipsis value={slug} max={35} />,
-    },
-
-    {
-      accessor: "product.name",
-      sortable: true,
-      title: "Sản phẩm",
-      render: ({ product }) => product?.name ?? "-",
     },
 
     {
       accessor: "category.name",
       sortable: true,
       title: "Danh mục",
-      render: ({ category }) => category?.name ?? "-",
+      render: ({  category }) => category?.name ?? "",
     },
 
-    {
-      accessor: "group.name",
-      sortable: true,
-      title: "Nhóm",
-      render: ({ group }) => group?.name ?? "-",
-    },
 
     {
       accessor: "createdAt",

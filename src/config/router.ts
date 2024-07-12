@@ -1,6 +1,5 @@
 export const routerPath = {
   home: "/",
-  feature: "/feature",
   banner: "/banner",
   trusted : "/trusted",
   admin: "/admin",
@@ -8,5 +7,7 @@ export const routerPath = {
   login: "/login",
   advertisement: "/advertisement",
   docs: "/docs",
-  search: "/search"
+  category: "/category",
+  posts: "/posts",
+  post: "/post",
 };

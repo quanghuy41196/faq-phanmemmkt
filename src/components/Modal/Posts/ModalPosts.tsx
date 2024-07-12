@@ -1,17 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import ButtonFlowbite from "@/components/ButtonFlowbite";
-import {
-  ButtonAddCategory,
-  ButtonAddGroup,
-  ButtonAddProduct,
-} from "@/components/ButtonModal";
-import {
-  SelectScrollCategory,
-  SelectScrollGroup,
-  SelectScrollProducts,
-} from "@/components/SelectScrollApi";
+import { ButtonAddCategory } from "@/components/ButtonModal";
 import { InputField, TextEditorField } from "@/components/customFormField";
+import { SelectScrollCategory } from "@/components/SelectScrollApi";
 import { cn, slugUrl } from "@/helper/functions";
 import { useCreatePosts } from "@/services/framework/posts/useCreatePosts";
 import { useUpdatePosts } from "@/services/framework/posts/useUpdateProduct";
@@ -19,15 +11,21 @@ import {
   ICategory,
   IFormPost,
   IFormUpdatePost,
-  IGroup,
   IPost,
-  IProduct,
 } from "@/services/interface";
 import { IModalDefaultProps, refSelect } from "@/types";
 import { Checkbox } from "@mantine/core";
 import { Label, Modal } from "flowbite-react";
 import { useFormik } from "formik";
-import { FC, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+  FC,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import * as yup from "yup";
 
 export interface ModalPostsProps extends IModalDefaultProps {
@@ -37,9 +35,7 @@ export interface ModalPostsProps extends IModalDefaultProps {
 
 const validateSchemaPost = yup.object().shape({
   categoryId: yup.string().required("Vui lòng chọn danh mục"),
-  productId: yup.string().required("Vui lòng chọn sản phẩm"),
   basecontent: yup.string().required("Vui lòng nhập nội dung"),
-  groupId: yup.string().required("Vui lòng chọn nhóm"),
   slug: yup.string().required("Vui lòng nhập đường dẫn"),
   title: yup.string().required("Vui lòng nhập tiêu đề"),
 });
@@ -55,24 +51,21 @@ const ModalPosts: FC<ModalPostsProps> = ({
   const { mutate: createPost, isPending: isPendingCreate } = useCreatePosts();
   const { mutate: updatePost, isPending: isPendingUpdate } = useUpdatePosts();
   const isProcessing = isPendingCreate || isPendingUpdate;
-  const refGroup = useRef<refSelect>(null);
   const refCategory = useRef<refSelect>(null);
-  const refProduct = useRef<refSelect>(null);
 
   const formik = useFormik<IFormPost>({
     initialValues: {
       basecontent: "",
       categoryId: "",
-      productId: "",
       slug: "",
-      groupId: "",
       title: "",
-      isDependent: true,
+      isDependent: true
     },
     validationSchema: validateSchemaPost,
     onSubmit: (values) => {
+      const { isDependent, ...rest } = values;
       if (currentData?.id) {
-        const { basecontent, ...spread } = values;
+        const { basecontent, ...spread } = rest;
         const newData: IFormUpdatePost = {
           ...spread,
           id: currentData?.id,
@@ -89,7 +82,7 @@ const ModalPosts: FC<ModalPostsProps> = ({
         return;
       }
 
-      createPost(values, {
+      createPost(rest, {
         onSuccess: (data) => {
           handleClose();
           onSuccess && onSuccess(data);
@@ -100,15 +93,14 @@ const ModalPosts: FC<ModalPostsProps> = ({
 
   useEffect(() => {
     if (currentData?.id) {
-      const isDepen = (currentData?.slug ?? "") === slugUrl(currentData?.title ?? "")
+      const isDepen =
+        (currentData?.slug ?? "") === slugUrl(currentData?.title ?? "");
       formik?.setValues({
         basecontent: currentData?.content?.content ?? "",
         categoryId: currentData?.category?.id ?? "",
-        productId: currentData?.product?.id ?? "",
         slug: currentData?.slug ?? "",
-        groupId: currentData?.group?.id ?? "",
         title: currentData?.title ?? "",
-        isDependent: isDepen
+        isDependent: isDepen,
       });
       setContent(currentData?.content?.content ?? "");
     }
@@ -119,21 +111,8 @@ const ModalPosts: FC<ModalPostsProps> = ({
       if (currentData?.category) {
         refCategory?.current?.uniqueOption?.(currentData?.category);
       }
-
-      if (currentData?.product) {
-        refProduct?.current?.uniqueOption?.(currentData?.product);
-      }
-
-      if (currentData?.group) {
-        refGroup?.current?.uniqueOption?.(currentData?.group);
-      }
     }
-  }, [
-    currentData,
-    refGroup?.current,
-    refProduct?.current,
-    refCategory?.current,
-  ]);
+  }, [currentData, refCategory?.current]);
 
   const handleClose = useCallback(() => setIsShow && setIsShow(false), []);
 
@@ -161,28 +140,12 @@ const ModalPosts: FC<ModalPostsProps> = ({
       : "";
   }, [formik?.errors?.basecontent, formik?.touched?.basecontent]);
 
-  const onSuccessProduct = useCallback(
-    (data: IProduct) => {
-      refProduct.current?.uniqueOption?.(data);
-      formik.setFieldValue("productId", data?.id);
-    },
-    [refProduct]
-  );
-
   const onSuccessCategory = useCallback(
     (data: ICategory) => {
       refCategory.current?.uniqueOption?.(data);
       formik.setFieldValue("categoryId", data?.id);
     },
-    [refProduct]
-  );
-
-  const onSuccessGroup = useCallback(
-    (data: IGroup) => {
-      refGroup.current?.uniqueOption?.(data);
-      formik.setFieldValue("groupId", data?.id);
-    },
-    [refProduct]
+    [refCategory]
   );
 
   return (
@@ -226,9 +189,7 @@ const ModalPosts: FC<ModalPostsProps> = ({
                   color="indigo"
                   id={`checkbox-${idForm}`}
                   checked={formik?.values?.isDependent}
-                  onChange={() => {
-                    handleCheckbox(formik?.values?.title ?? "");
-                  }}
+                  onChange={() => handleCheckbox(formik?.values?.title ?? "")}
                 />
                 <Label
                   htmlFor={`checkbox-${idForm}`}
@@ -241,16 +202,6 @@ const ModalPosts: FC<ModalPostsProps> = ({
           </div>
 
           <div className="flex w-full items-start gap-[15px]">
-            <SelectScrollProducts
-              formik={formik}
-              isVertical
-              isRequired
-              ref={refProduct}
-            />
-            <ButtonAddProduct onSuccess={onSuccessProduct} />
-          </div>
-
-          <div className="flex w-full items-start gap-[15px]">
             <SelectScrollCategory
               formik={formik}
               isVertical
@@ -258,15 +209,6 @@ const ModalPosts: FC<ModalPostsProps> = ({
               ref={refCategory}
             />
             <ButtonAddCategory onSuccess={onSuccessCategory} />
-          </div>
-          <div className="flex w-full items-start gap-[15px]">
-            <SelectScrollGroup
-              formik={formik}
-              isVertical
-              isRequired
-              ref={refGroup}
-            />
-            <ButtonAddGroup onSuccess={onSuccessGroup} />
           </div>
 
           <TextEditorField

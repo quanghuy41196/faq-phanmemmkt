@@ -1,8 +1,5 @@
 import { ICategory } from "./category";
 import { IConfigSearchDefault } from "./default";
-import { IGroup } from "./group";
-import { IProduct } from "./products";
-
 export interface IPost {
   id: string;
   content: {
@@ -11,18 +8,14 @@ export interface IPost {
   createdAt: string;
   updateAt: string;
   category?: ICategory;
-  product?: IProduct;
-  group?: IGroup;
   slug?: string
   title?: string
 }
 
 export interface IFormPost {
-  productId: string;
   categoryId: string;
   basecontent: string;
   slug?: string;
-  groupId?: string
   title?: string
   isDependent?: boolean
 }

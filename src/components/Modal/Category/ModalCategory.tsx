@@ -4,14 +4,17 @@ import ButtonFlowbite from "@/components/ButtonFlowbite";
 import {
   ErrorHelperText,
   InputField,
+  TextAreaField,
   UploadFileField,
 } from "@/components/customFormField";
 import { FileListProps } from "@/components/customFormField/UploadFileField";
+import { cn, slugUrl } from "@/helper/functions";
 import { useCreateCategory } from "@/services/framework/category/useCreateCategory";
 import { useUpdateCategory } from "@/services/framework/category/useUpdateCategory";
-import { ICategory, IFormDefault } from "@/services/interface";
+import { ICategory, IFormCategory } from "@/services/interface";
 import { IModalDefaultProps } from "@/types";
-import { Modal } from "flowbite-react";
+import { Checkbox } from "@mantine/core";
+import { Label, Modal } from "flowbite-react";
 import { useFormik } from "formik";
 import { FC, useEffect, useId } from "react";
 import * as yup from "yup";
@@ -24,6 +27,7 @@ export interface ModalCategoryProps extends IModalDefaultProps {
 const validateSchemaCategory = yup.object().shape({
   name: yup.string().required("Vui lòng nhập tên danh mục"),
   file: yup.mixed().required("Vui lòng chọn hình ảnh"),
+  slug: yup.string().required("Vui lòng nhập đường dẫn")
 });
 
 const ModalCategory: FC<ModalCategoryProps> = ({
@@ -39,10 +43,13 @@ const ModalCategory: FC<ModalCategoryProps> = ({
     useUpdateCategory();
   const isProcessing = isPendingCreate || isPendingUpdate;
 
-  const formik = useFormik<IFormDefault>({
+  const formik = useFormik<IFormCategory>({
     initialValues: {
       name: "",
       file: undefined,
+      description: "",
+      isDependent: true,
+      slug: ""
     },
     validationSchema: currentData?.id
       ? validateSchemaCategory.omit(["file"])
@@ -75,11 +82,26 @@ const ModalCategory: FC<ModalCategoryProps> = ({
     },
   });
 
+  const handleSlug = (name: string) => {
+    const slug = slugUrl(name);
+    formik.setFieldValue("slug", slug);
+  };
+
+  const handleCheckbox = (value: string) => {
+    const isDepen = !formik?.values?.isDependent;
+    formik.setFieldValue("isDependent", isDepen);
+    isDepen && handleSlug(value);
+  };
+
   useEffect(() => {
     if (currentData?.id) {
+      const isDepen = (currentData?.slug ?? "") === slugUrl(currentData?.name ?? "")
       formik?.setValues({
         name: currentData?.name ?? "",
         listFile: currentData?.icon ? [{ url: currentData?.icon }] : [],
+        description: currentData?.description ?? "",
+        isDependent: isDepen,
+        slug: currentData?.slug ?? ""
       });
     }
   }, [currentData]);
@@ -98,7 +120,48 @@ const ModalCategory: FC<ModalCategoryProps> = ({
             label="Tên danh mục"
             isVertical
             isRequired
+            onChange={(e) => {
+              formik?.values?.isDependent && handleSlug(e.target.value);
+            }}
           />
+
+          <div className="flex gap-3">
+            <InputField
+              formik={formik}
+              name="slug"
+              placeholder="Nhập đường dẫn thân thiện"
+              label="Đường dẫn"
+              isVertical
+              isRequired
+              classWapper="flex-1"
+              readOnly={formik?.values?.isDependent}
+              disabled={formik?.values?.isDependent}
+              className={cn(formik?.values?.isDependent && "!bg-gray-50")}
+            />
+            <div
+              className={cn(
+                "flex items-end",
+                formik?.errors?.slug && formik?.touched?.slug ? "mb-9" : "mb-2"
+              )}
+            >
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  color="indigo"
+                  id={`checkbox-${idForm}`}
+                  checked={formik?.values?.isDependent}
+                  onChange={() => {
+                    handleCheckbox(formik?.values?.name ?? "");
+                  }}
+                />
+                <Label
+                  htmlFor={`checkbox-${idForm}`}
+                  className="cursor-pointer select-none"
+                >
+                  Lấy theo danh mục
+                </Label>
+              </div>
+            </div>
+          </div>
 
           <div>
             <UploadFileField
@@ -135,6 +198,15 @@ const ModalCategory: FC<ModalCategoryProps> = ({
               {formik?.errors?.file}
             </ErrorHelperText>
           </div>
+
+          <TextAreaField
+            formik={formik}
+            name="description"
+            isVertical
+            label="Mô tả"
+            placeholder="Nhập mô tả"
+            rows={4}
+          />
         </form>
       </Modal.Body>
       <Modal.Footer className="flex justify-end">

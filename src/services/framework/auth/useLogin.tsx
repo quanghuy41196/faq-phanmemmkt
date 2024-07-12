@@ -13,7 +13,7 @@ export const useLogin = () => {
     onSuccess: (data) => {
       toast.success("Đăng nhập thành công");
       setAccessToken(data?.token);
-      router.push(joinPathParent(routerPath.admin, routerPath.feature));
+      router.push(joinPathParent(routerPath.admin, routerPath.posts));
     },
   });
 };

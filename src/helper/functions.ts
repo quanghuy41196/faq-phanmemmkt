@@ -199,35 +199,3 @@ export const slugUrl = (name: string, replacement: string = "-") => {
   });
 };
 
-export const customDataGroup = (dataPosts?: IPost[]) => {
-  return (dataPosts ?? []).reduce((total, currentPost): IListPost => {
-    if (currentPost?.group && currentPost?.category) {
-      const idGroup = currentPost?.group?.id;
-      const idCategory = currentPost?.category?.id;
-      const current = {
-        [idCategory]: {
-          list: [currentPost],
-          onePost: currentPost,
-          category: currentPost?.category,
-        },
-      };
-
-      if (Object.hasOwn(total, idGroup ?? "")) {
-        if (Object.hasOwn(total?.[idGroup].posts, idCategory)) {
-          total[idGroup].posts[idCategory].list.push(currentPost);
-        } else {
-          total[idGroup].posts = { ...total[idGroup].posts, ...current };
-        }
-      } else {
-        total = {
-          ...total,
-          [idGroup]: {
-            group: currentPost?.group,
-            posts: current,
-          },
-        };
-      }
-    }
-    return total;
-  }, {} as IListPost);
-};

@@ -1,4 +1,6 @@
 import { ButtonAction, ButtonActionGroups } from "@/components/ButtonAction";
+import ImageViewModal from "@/components/ImageViewModal";
+import SliceHoverEllipsis from "@/components/SliceHoverEllipsis";
 import { formatDate } from "@/helper/functions";
 import { ICategory } from "@/services/interface";
 import { TDataColumnTable, configTableParams } from "@/types";
@@ -15,24 +17,28 @@ export const configTableCategory = ({
       accessor: "name",
       sortable: true,
       title: "Danh mục",
+      render: ({ name }) => <SliceHoverEllipsis value={name} max={40}/>,
+    },
+
+    {
+      accessor: "slug",
+      sortable: true,
+      title: "Đường đẫn",
+      render: ({ slug }) => <SliceHoverEllipsis value={slug} max={25}/>,
+    },
+
+    {
+      accessor: "description",
+      sortable: true,
+      title: "Mô tả",
+      render: ({ description }) => <SliceHoverEllipsis value={description} max={30}/>,
     },
 
     {
       accessor: "icon",
       title: "Hình ảnh",
       width: 120,
-      render: ({ icon, name }) =>
-        icon ? (
-          <Image
-            src={icon}
-            alt={name}
-            width={40}
-            height={40}
-            className="cursor-pointer"
-          />
-        ) : (
-          "-"
-        ),
+      render: ({ icon, name }) => <ImageViewModal src={icon} alt={name}/>
     },
 
     {
