@@ -12,7 +12,7 @@ const BoxItemAds: FC<BoxItemAdsProps> = ({ position }) => {
   const dataAds = use(
     getFetchAllAds({
       search: {
-        position,
+        position: !!position,
         active: true,
       },
     })
