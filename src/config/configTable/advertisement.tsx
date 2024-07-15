@@ -1,5 +1,6 @@
 import { ButtonAction, ButtonActionGroups } from "@/components/ButtonAction";
 import ImageViewModal from "@/components/ImageViewModal";
+import SliceHoverEllipsis from "@/components/SliceHoverEllipsis";
 import { formatDate } from "@/helper/functions";
 import { IAds } from "@/services/interface";
 import { TDataColumnTable, configTableParams } from "@/types";
@@ -7,9 +8,8 @@ import { ToggleSwitch } from "flowbite-react";
 import { MdDelete } from "react-icons/md";
 import { TbEditCircle } from "react-icons/tb";
 import { optionsPositionAds } from "../options";
-import SliceHoverEllipsis from "@/components/SliceHoverEllipsis";
 
-interface IConfigTableAdvertisement extends configTableParams<IAds> {
+export interface IConfigTableAdvertisement extends configTableParams<IAds> {
   handleChangeStatus?: (id: string, active: boolean) => void;
   objStatus?: any;
   isPending?: boolean;

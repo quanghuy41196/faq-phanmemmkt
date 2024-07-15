@@ -4,6 +4,7 @@ import HeaderPublic from "@/layout/HeaderPublic";
 import { Metadata } from "next";
 import { FC, PropsWithChildren } from "react";
 import Banner from "./(components)/Banner";
+import BoxItemAds from "./(components)/BoxItemAds";
 
 export const metadata: Metadata = {
   title: {
@@ -20,9 +21,9 @@ const LayoutPublicRouter: FC<PropsWithChildren> = ({ children }) => {
       <HeaderPublic />
       <Banner />
       <div className="flex gap-2 mt-5">
-        {/* <div id="left-qc" className="bg-black w-[300px] h-[500px] flex-shrink-0 sticky qc max-1370:w-[250px] max-lg:hidden"></div> */}
+        <BoxItemAds />
         <div className="mx-auto py-8 container">{children}</div>
-        {/* <div id="right-qc" className="bg-black w-[300px] h-[500px] flex-shrink-0 sticky qc max-1370:w-[250px] max-lg:hidden"></div> */}
+        <BoxItemAds position/>
       </div>
       <FooterPublic />
     </div>

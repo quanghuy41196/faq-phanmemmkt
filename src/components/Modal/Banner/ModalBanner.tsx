@@ -4,9 +4,11 @@ import ButtonFlowbite from "@/components/ButtonFlowbite";
 import {
   ErrorHelperText,
   InputField,
+  SelectField,
   UploadFileField,
 } from "@/components/customFormField";
 import { FileListProps } from "@/components/customFormField/UploadFileField";
+import { optionsStatusAds } from "@/config";
 import { useCreateBanner } from "@/services/framework/banner/useCreateBanner";
 import { useUpdateBanner } from "@/services/framework/banner/useUpdateBanner";
 import { IBanner, IFormBanner } from "@/services/interface";
@@ -42,6 +44,7 @@ const ModalBanner: FC<ModalBannerProps> = ({
     initialValues: {
       link: "",
       file: undefined,
+      active: true,
     },
     validationSchema: currentData?.id
       ? validateSchemaBanner.omit(["file"])
@@ -79,6 +82,7 @@ const ModalBanner: FC<ModalBannerProps> = ({
       formik?.setValues({
         link: currentData?.link ?? "",
         listFile: currentData?.image ? [{ url: currentData?.image }] : [],
+        active: currentData?.active ?? true
       });
     }
   }, [currentData]);
@@ -96,6 +100,15 @@ const ModalBanner: FC<ModalBannerProps> = ({
             placeholder="Nhập liên kết"
             label="Liên kết"
             isVertical
+          />
+
+          <SelectField
+            formik={formik}
+            name="active"
+            placeholder="Chọn trạng thái"
+            label="Trạng thái"
+            isVertical
+            options={optionsStatusAds}
           />
 
           <div>

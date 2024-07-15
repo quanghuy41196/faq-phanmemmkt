@@ -7,11 +7,16 @@ export const useUpdateBanner = () => {
 
   return useMutation({
     mutationFn: bannerApi.update,
-    onSuccess: () => {
-      toast.success("Chỉnh sửa banner thành công");
-      queryClient.invalidateQueries({
-        queryKey: [bannerApi.queryKey],
-      });
+    onSuccess: (_data, variables) => {
+      const arrKey = Object.keys(variables?.payload);
+      if (arrKey?.length === 1 && arrKey.includes("active")) {
+        toast.success("Thay đổi trạng thái thành công");
+      } else {
+        toast.success("Chỉnh sửa banner thành công");
+        queryClient.invalidateQueries({
+          queryKey: [bannerApi.queryKey],
+        });
+      }
     },
   });
 };

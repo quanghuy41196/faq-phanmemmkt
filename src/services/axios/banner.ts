@@ -1,3 +1,4 @@
+import { headersFormData } from "@/config";
 import { sendFormData } from "@/helper/functions";
 import {
   IBanner,
@@ -6,7 +7,6 @@ import {
   MktPaginationResponse,
 } from "../interface";
 import http from "./httpClient";
-import { headersFormData } from "@/config";
 
 export const bannerApi = {
   queryKey: "banner",
@@ -30,11 +30,12 @@ export const bannerApi = {
   },
 
   update: async ({id, payload}: IFormUpdate<IFormBanner>) => {
-    const formdata = sendFormData(payload);
+    const isFormData = Object.hasOwn(payload, 'file')
+    const formdata = isFormData ? sendFormData(payload) : payload;
     return await http.put<any, IBanner>(
       `${bannerApi.queryKey}/update/${id}`,
       formdata,
-      headersFormData
+      isFormData ? headersFormData : {}
     );
   },
 

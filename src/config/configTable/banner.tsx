@@ -4,13 +4,22 @@ import SliceHoverEllipsis from "@/components/SliceHoverEllipsis";
 import { formatDate } from "@/helper/functions";
 import { IBanner } from "@/services/interface";
 import { TDataColumnTable, configTableParams } from "@/types";
+import { ToggleSwitch } from "flowbite-react";
 import { MdDelete } from "react-icons/md";
 import { TbEditCircle } from "react-icons/tb";
+import { IConfigTableAdvertisement } from "./advertisement";
 
 export const configTableBanner = ({
   handleDelete,
   handleForm,
-}: configTableParams<IBanner>): TDataColumnTable<IBanner> => {
+  handleChangeStatus,
+  isPending,
+  objStatus,
+}: configTableParams<IBanner> &
+  Pick<
+    IConfigTableAdvertisement,
+    "handleChangeStatus" | "isPending" | "objStatus"
+  >): TDataColumnTable<IBanner> => {
   return [
     {
       accessor: "image",
@@ -23,6 +32,25 @@ export const configTableBanner = ({
       sortable: true,
       title: "Liên kết",
       render: ({ link }) => <SliceHoverEllipsis value={link} max={40} />,
+    },
+
+    {
+      accessor: "active",
+      title: "Trạng thái",
+      render: ({ active, id }) => {
+        const isActive =
+          objStatus && Object.hasOwn(objStatus, id) ? objStatus?.[id] : active;
+
+        return (
+          <ToggleSwitch
+            disabled={isPending}
+            checked={isActive}
+            onChange={() =>
+              handleChangeStatus && handleChangeStatus(id, isActive)
+            }
+          />
+        );
+      },
     },
 
     {

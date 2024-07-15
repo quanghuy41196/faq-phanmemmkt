@@ -15,7 +15,7 @@ const HomePage = () => {
 
   return (
     <div className="flex mt-3">
-      <div className="grid max-1370:grid-cols-2 1370:grid-cols-3 max-sm:grid-cols-1 gap-5 w-full">
+      <div className="grid max-1370:grid-cols-2 1370:grid-cols-3 2xl:grid-cols-4 max-sm:grid-cols-1 gap-5 w-full">
         {(dataCategory?.items ?? [])?.map((item) => {
           return (
             <BoxItem

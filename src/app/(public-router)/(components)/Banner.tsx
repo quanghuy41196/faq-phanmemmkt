@@ -1,58 +1,17 @@
-"use client";
-import Image from "next/image";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/pagination";
-import { Autoplay, EffectFade, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { getFetchAllBanner } from "@/services/fetch";
+import { use } from "react";
+import BannerList from "./BannerList";
 
-const listBanner = [
-  {
-    src: "https://phanmemmkt.vn/wp-content/uploads/2024/04/Banner_slide_phan_mem_MKT_option2_10-4-2024-1.webp",
-  },
-
-  {
-    src: "https://phanmemmkt.vn/wp-content/uploads/2024/04/Banner_slide_Big_update_23-4-2024-1.webp",
-  },
-
-  {
-    src: "https://phanmemmkt.vn/wp-content/uploads/2024/04/Slider_banner_MKT_Page_10-4-2024-1-1.webp",
-  },
-
-  {
-    src: "https://phanmemmkt.vn/wp-content/uploads/2024/04/Banner_Email-1.webp",
-  },
-];
 
 const Banner = () => {
+  const listBanner = use(getFetchAllBanner({
+    search: {
+      active: true
+    }
+  }))
+
   return (
-    <Swiper
-      className="min-[2000px]:h-[760px] xl:h-[550px] max-xl:h-[450px] max-lg:h-[400px] max-md:h-full"
-      loop
-      effect="fade"
-      pagination={{
-        dynamicBullets: true,
-        clickable: true,
-      }}
-      autoplay={{
-        delay: 2500,
-      }}
-      modules={[Pagination, Autoplay, EffectFade]}
-    >
-      {listBanner?.map((item, index) => {
-        return (
-          <SwiperSlide className="w-full !h-full" key={index}>
-            <Image
-              width={1920}
-              height={600}
-              src={item?.src}
-              alt="ss"
-              className="w-full h-full"
-            />
-          </SwiperSlide>
-        );
-      })}
-    </Swiper>
+   <BannerList data={listBanner?.items ?? []}/>
   );
 };
 

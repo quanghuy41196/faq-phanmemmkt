@@ -48,8 +48,8 @@ export interface UploadFileFieldProps
 
 const initCheckFileError: checkFileErrorType[] = [
   {
-    values: ["png", "jpeg", "jpg", "svg+xml"],
-    msg: "Chỉ hỗ trợ tệp thuộc loại PNG，JPG，JPEG",
+    values: ["png", "jpeg", "jpg", "svg+xml", "webp", "gif"],
+    msg: "Chỉ hỗ trợ tệp thuộc loại PNG，JPG，JPEG, SVG, WEBP, GIF",
     checkFuc: validateCheckFileType,
   },
 
