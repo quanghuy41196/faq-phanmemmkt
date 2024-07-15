@@ -1,53 +1,76 @@
 import { ButtonAction, ButtonActionGroups } from "@/components/ButtonAction";
+import ImageViewModal from "@/components/ImageViewModal";
 import { formatDate } from "@/helper/functions";
+import { IAds } from "@/services/interface";
 import { TDataColumnTable, configTableParams } from "@/types";
-import Image from "next/image";
+import { ToggleSwitch } from "flowbite-react";
 import { MdDelete } from "react-icons/md";
 import { TbEditCircle } from "react-icons/tb";
+import { optionsPositionAds } from "../options";
+import SliceHoverEllipsis from "@/components/SliceHoverEllipsis";
+
+interface IConfigTableAdvertisement extends configTableParams<IAds> {
+  handleChangeStatus?: (id: string, active: boolean) => void;
+  objStatus?: any;
+  isPending?: boolean;
+}
 
 export const configTableAdvertisement = ({
   handleDelete,
   handleForm,
-}: configTableParams<any>): TDataColumnTable<any> => {
+  handleChangeStatus,
+  isPending,
+  objStatus,
+}: IConfigTableAdvertisement): TDataColumnTable<IAds> => {
   return [
     {
-      accessor: "icon",
+      accessor: "image",
       title: "Hình ảnh",
       width: 120,
-      render: ({ icon, name }) =>
-        icon ? (
-          <Image
-            src={icon}
-            alt={name}
-            width={40}
-            height={40}
-            className="cursor-pointer"
-          />
-        ) : (
-          "-"
-        ),
+      render: ({ image, link }) => <ImageViewModal src={image} alt={link} />,
     },
 
     {
       accessor: "link",
       title: "Liên kết",
+      render: ({ link }) => <SliceHoverEllipsis value={link} max={40} />,
     },
 
     {
-      accessor: "link33",
+      accessor: "position",
       title: "Vị trí",
+      render: ({ position }) => {
+        const currnetPostion = optionsPositionAds?.find(
+          (opt) => opt?.value === position
+        );
+        return currnetPostion?.label ?? "";
+      },
     },
 
     {
-      accessor: "link33sss",
+      accessor: "active",
       title: "Trạng thái",
+      render: ({ active, id }) => {
+        const isActive =
+          objStatus && Object.hasOwn(objStatus, id) ? objStatus?.[id] : active;
+
+        return (
+          <ToggleSwitch
+            disabled={isPending}
+            checked={isActive}
+            onChange={() =>
+              handleChangeStatus && handleChangeStatus(id, isActive)
+            }
+          />
+        );
+      },
     },
 
     {
-      accessor: "createdAt",
+      accessor: "createAt",
       title: "Thời gian tạo",
       sortable: true,
-      render: ({ createdAt }) => formatDate(createdAt),
+      render: ({ createAt }) => formatDate(createAt),
     },
 
     {

@@ -7,7 +7,7 @@ import Banner from "./(components)/Banner";
 
 export const metadata: Metadata = {
   title: {
-    default: "Hướng Dẫn Sử Dụng Phần Mềm MKT",
+    default: "Phần Mềm MKT",
     template: `%s | ${site.name}`,
   },
   description:

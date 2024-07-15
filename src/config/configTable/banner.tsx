@@ -1,38 +1,28 @@
 import { ButtonAction, ButtonActionGroups } from "@/components/ButtonAction";
+import ImageViewModal from "@/components/ImageViewModal";
+import SliceHoverEllipsis from "@/components/SliceHoverEllipsis";
 import { formatDate } from "@/helper/functions";
-import { ICategory } from "@/services/interface";
+import { IBanner } from "@/services/interface";
 import { TDataColumnTable, configTableParams } from "@/types";
-import Image from "next/image";
 import { MdDelete } from "react-icons/md";
 import { TbEditCircle } from "react-icons/tb";
 
 export const configTableBanner = ({
   handleDelete,
   handleForm,
-}: configTableParams<ICategory>): TDataColumnTable<ICategory> => {
+}: configTableParams<IBanner>): TDataColumnTable<IBanner> => {
   return [
     {
-      accessor: "href",
-      sortable: true,
-      title: "Liên kết",
-    },
-
-    {
-      accessor: "icon",
+      accessor: "image",
       title: "Hình ảnh",
       width: 120,
-      render: ({ icon, name }) =>
-        icon ? (
-          <Image
-            src={icon}
-            alt={name}
-            width={40}
-            height={40}
-            className="cursor-pointer"
-          />
-        ) : (
-          "-"
-        ),
+      render: ({ image, link }) => <ImageViewModal src={image} alt={link} />,
+    },
+    {
+      accessor: "link",
+      sortable: true,
+      title: "Liên kết",
+      render: ({ link }) => <SliceHoverEllipsis value={link} max={40} />,
     },
 
     {

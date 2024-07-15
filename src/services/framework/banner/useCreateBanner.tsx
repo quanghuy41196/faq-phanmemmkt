@@ -1,16 +1,17 @@
-import { groupApi } from "@/services/axios/group";
+
+import { bannerApi } from "@/services/axios/banner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-export const useDeleteGroup = () => {
+export const useCreateBanner = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: groupApi.delete,
+    mutationFn: bannerApi.create,
     onSuccess: () => {
-      toast.success("Xóa nhóm thành công");
+      toast.success("Thêm banner thành công");
       queryClient.invalidateQueries({
-        queryKey: [groupApi.queryKey],
+        queryKey: [bannerApi.queryKey],
       });
     },
   });

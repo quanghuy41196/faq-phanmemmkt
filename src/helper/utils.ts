@@ -1,3 +1,4 @@
+"use client"
 import { routerPath, slidebarConfig } from "@/config";
 import { renderSildebarArrayProps, returnNewConfigSildeBar } from "@/types";
 import _ from "lodash";

@@ -7,9 +7,9 @@ import {
   UploadFileField,
 } from "@/components/customFormField";
 import { FileListProps } from "@/components/customFormField/UploadFileField";
-import { useCreateCategory } from "@/services/framework/category/useCreateCategory";
-import { useUpdateCategory } from "@/services/framework/category/useUpdateCategory";
-import { ICategory, IFormDefault } from "@/services/interface";
+import { useCreateBanner } from "@/services/framework/banner/useCreateBanner";
+import { useUpdateBanner } from "@/services/framework/banner/useUpdateBanner";
+import { IBanner, IFormBanner } from "@/services/interface";
 import { IModalDefaultProps } from "@/types";
 import { Modal } from "flowbite-react";
 import { useFormik } from "formik";
@@ -17,12 +17,11 @@ import { FC, useEffect, useId } from "react";
 import * as yup from "yup";
 
 export interface ModalBannerProps extends IModalDefaultProps {
-  currentData?: ICategory;
-  onSuccess?: (data: ICategory) => void;
+  currentData?: IBanner;
+  onSuccess?: (data: IBanner) => void;
 }
 
-const validateSchemaCategory = yup.object().shape({
-  name: yup.string().required("Vui lòng nhập liên kết"),
+const validateSchemaBanner = yup.object().shape({
   file: yup.mixed().required("Vui lòng chọn hình ảnh"),
 });
 
@@ -33,25 +32,25 @@ const ModalBanner: FC<ModalBannerProps> = ({
   onSuccess,
 }) => {
   const idForm = useId();
-  const { mutate: createCategory, isPending: isPendingCreate } =
-    useCreateCategory();
-  const { mutate: updateCategory, isPending: isPendingUpdate } =
-    useUpdateCategory();
+  const { mutate: createBanner, isPending: isPendingCreate } =
+    useCreateBanner();
+  const { mutate: updateBanner, isPending: isPendingUpdate } =
+    useUpdateBanner();
   const isProcessing = isPendingCreate || isPendingUpdate;
 
-  const formik = useFormik<IFormDefault>({
+  const formik = useFormik<IFormBanner>({
     initialValues: {
-      name: "",
+      link: "",
       file: undefined,
     },
     validationSchema: currentData?.id
-      ? validateSchemaCategory.omit(["file"])
-      : validateSchemaCategory,
+      ? validateSchemaBanner.omit(["file"])
+      : validateSchemaBanner,
     onSubmit: (values) => {
       const { listFile, ...newData } = values;
 
       if (currentData?.id) {
-        updateCategory(
+        updateBanner(
           {
             id: currentData?.id,
             payload: newData,
@@ -66,7 +65,7 @@ const ModalBanner: FC<ModalBannerProps> = ({
         return;
       }
 
-      createCategory(newData, {
+      createBanner(newData, {
         onSuccess: (data) => {
           handleClose();
           onSuccess && onSuccess(data);
@@ -78,8 +77,8 @@ const ModalBanner: FC<ModalBannerProps> = ({
   useEffect(() => {
     if (currentData?.id) {
       formik?.setValues({
-        name: currentData?.name ?? "",
-        listFile: currentData?.icon ? [{ url: currentData?.icon }] : [],
+        link: currentData?.link ?? "",
+        listFile: currentData?.image ? [{ url: currentData?.image }] : [],
       });
     }
   }, [currentData]);
@@ -93,11 +92,10 @@ const ModalBanner: FC<ModalBannerProps> = ({
         <form id={idForm} className="space-y-3" onSubmit={formik.handleSubmit}>
           <InputField
             formik={formik}
-            name="name"
+            name="link"
             placeholder="Nhập liên kết"
             label="Liên kết"
             isVertical
-            isRequired
           />
 
           <div>

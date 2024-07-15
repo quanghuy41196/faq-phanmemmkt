@@ -27,7 +27,7 @@ const listBanner = [
 const Banner = () => {
   return (
     <Swiper
-      className="h-[600px]"
+      className="min-[2000px]:h-[760px] xl:h-[550px] max-xl:h-[450px] max-lg:h-[400px] max-md:h-full"
       loop
       effect="fade"
       pagination={{

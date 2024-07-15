@@ -8,9 +8,10 @@ import {
   UploadFileField,
 } from "@/components/customFormField";
 import { FileListProps } from "@/components/customFormField/UploadFileField";
-import { useCreateCategory } from "@/services/framework/category/useCreateCategory";
-import { useUpdateCategory } from "@/services/framework/category/useUpdateCategory";
-import { IFormDefault } from "@/services/interface";
+import { optionsPositionAds, optionsStatusAds } from "@/config";
+import { useCreateAds } from "@/services/framework/ads/useCreateAds";
+import { useUpdateAds } from "@/services/framework/ads/useUpdateAds";
+import { IAds, IFormAds, IFormDefault } from "@/services/interface";
 import { IModalDefaultProps } from "@/types";
 import { Modal } from "flowbite-react";
 import { useFormik } from "formik";
@@ -18,12 +19,11 @@ import { FC, useEffect, useId } from "react";
 import * as yup from "yup";
 
 export interface ModalAdvertisementProps extends IModalDefaultProps {
-  currentData?: any;
-  onSuccess?: (data: any) => void;
+  currentData?: IAds;
+  onSuccess?: (data: IAds) => void;
 }
 
-const validateSchemaCategory = yup.object().shape({
-  name: yup.string().required("Vui lòng nhập liên kết"),
+const validateSchemaAds = yup.object().shape({
   file: yup.mixed().required("Vui lòng chọn hình ảnh"),
 });
 
@@ -34,25 +34,28 @@ const ModalAdvertisement: FC<ModalAdvertisementProps> = ({
   onSuccess,
 }) => {
   const idForm = useId();
-  const { mutate: createCategory, isPending: isPendingCreate } =
-    useCreateCategory();
-  const { mutate: updateCategory, isPending: isPendingUpdate } =
-    useUpdateCategory();
+  const { mutate: createAds, isPending: isPendingCreate } =
+    useCreateAds();
+  const { mutate: updateAds, isPending: isPendingUpdate } =
+    useUpdateAds();
   const isProcessing = isPendingCreate || isPendingUpdate;
 
-  const formik = useFormik<IFormDefault>({
+  const formik = useFormik<IFormAds>({
     initialValues: {
-      name: "",
+      link: "",
       file: undefined,
+      active: true,
+      listFile: [],
+      position: false,
     },
     validationSchema: currentData?.id
-      ? validateSchemaCategory.omit(["file"])
-      : validateSchemaCategory,
+      ? validateSchemaAds.omit(["file"])
+      : validateSchemaAds,
     onSubmit: (values) => {
       const { listFile, ...newData } = values;
 
       if (currentData?.id) {
-        updateCategory(
+        updateAds(
           {
             id: currentData?.id,
             payload: newData,
@@ -67,7 +70,7 @@ const ModalAdvertisement: FC<ModalAdvertisementProps> = ({
         return;
       }
 
-      createCategory(newData, {
+      createAds(newData, {
         onSuccess: (data) => {
           handleClose();
           onSuccess && onSuccess(data);
@@ -79,8 +82,10 @@ const ModalAdvertisement: FC<ModalAdvertisementProps> = ({
   useEffect(() => {
     if (currentData?.id) {
       formik?.setValues({
-        name: currentData?.name ?? "",
-        listFile: currentData?.icon ? [{ url: currentData?.icon }] : [],
+        link: currentData?.link ?? "",
+        listFile: currentData?.image ? [{ url: currentData?.image }] : [],
+        active: currentData?.active ?? true,
+        position: currentData?.position ?? false
       });
     }
   }, [currentData]);
@@ -96,46 +101,28 @@ const ModalAdvertisement: FC<ModalAdvertisementProps> = ({
         <form id={idForm} className="space-y-3" onSubmit={formik.handleSubmit}>
           <InputField
             formik={formik}
-            name="name"
+            name="link"
             placeholder="Nhập liên kết"
             label="Liên kết"
             isVertical
           />
 
           <SelectField
-            name="ss"
+            formik={formik}
+            name="position"
             placeholder="Chọn vị trí hiển thị"
             label="Vị trí hiển thị"
             isVertical
-            options={[
-              {
-                label: "Trái",
-                value: 1,
-              },
-
-              {
-                label: "Phải",
-                value: 2,
-              },
-            ]}
+            options={optionsPositionAds}
           />
 
           <SelectField
-            name="ss"
+            formik={formik}
+            name="active"
             placeholder="Chọn trạng thái"
             label="Trạng thái"
             isVertical
-            options={[
-              {
-                label: "Trái",
-                value: 1,
-              },
-
-              {
-                label: "Phải",
-                value: 2,
-              },
-            ]}
+            options={optionsStatusAds}
           />
 
           <div>

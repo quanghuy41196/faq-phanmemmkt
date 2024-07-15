@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import ButtonFlowbite from "@/components/ButtonFlowbite";
 import { FilterItems, FilterWapper } from "@/components/FilterLayout";
@@ -5,9 +6,10 @@ import MantineTableCustom from "@/components/MantineTableCustom";
 import { ModalAdvertisement, ModalConfirm } from "@/components/Modal";
 import { configTableAdvertisement } from "@/config/configTable";
 import { pickBySearch } from "@/helper/utils";
-import { useDeleteGroup } from "@/services/framework/group/useDeleteGroup";
-import useGetAllGroup from "@/services/framework/group/useGetAllGroup";
-import { IGroup, ISearchGroup } from "@/services/interface";
+import { useDeleteAds } from "@/services/framework/ads/useDeleteAds";
+import useGetAllAds from "@/services/framework/ads/useGetAllAds";
+import { useUpdateAds } from "@/services/framework/ads/useUpdateAds";
+import { IAds, ISearchAds } from "@/services/interface";
 import { TDataColumnTable } from "@/types";
 import { useCallback, useMemo, useState } from "react";
 import { IoAdd } from "react-icons/io5";
@@ -15,31 +17,67 @@ import { IoAdd } from "react-icons/io5";
 const Advertisement = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const [currentData, setCurrentData] = useState<IGroup>();
-  const [configSearch, setConfigSearch] = useState<ISearchGroup>({
+  const [objStatus, setObjStatus] = useState<{[key: string]: boolean}>({});
+  const [currentData, setCurrentData] = useState<IAds>();
+  const [configSearch, setConfigSearch] = useState<ISearchAds>({
     page: 1,
     limit: 50,
   });
-  const { data: dataGroup, isFetching } = useGetAllGroup(
+  const { mutate: changeStatus, isPending } = useUpdateAds();
+  const { data: dataGroup, isFetching } = useGetAllAds(
     pickBySearch(configSearch)
   );
 
-  const handleForm = useCallback((data?: IGroup) => {
-    setIsOpen(true);
-    setCurrentData(data);
-  }, []);
+  const handleChangeStatus = useCallback(
+    (id: string, active: boolean) => {
+      if (isPending) return;
+      setObjStatus((prev) => ({ ...prev, [id]: !active }));
+      changeStatus(
+        {
+          id,
+          payload: {
+            active: !active,
+          },
+        },
+        {
+          onError: () => setObjStatus((prev) => ({ ...prev, [id]: active })),
+        }
+      );
+    },
+    [isPending]
+  );
 
-  const handleDelete = useCallback((data?: IGroup) => {
+  const handleForm = useCallback(
+    (data?: IAds) => {
+      setIsOpen(true);
+      if (data) {
+        const newData: IAds = {
+          ...data,
+          active:
+            objStatus && Object.hasOwn(objStatus, data?.id)
+              ? objStatus?.[data?.id]
+              : data?.active,
+        };
+        setCurrentData(newData);
+      }
+    },
+    [objStatus]
+  );
+
+  const handleDelete = useCallback((data?: IAds) => {
     setIsDelete(true);
     setCurrentData(data);
   }, []);
 
-  const newConfigTableAdvertisement = useMemo((): TDataColumnTable<IGroup> => {
+  const newConfigTableAdvertisement = useMemo((): TDataColumnTable<IAds> => {
     return configTableAdvertisement({
       handleDelete,
       handleForm,
+      handleChangeStatus,
+      objStatus,
+      isPending,
     });
-  }, [handleDelete, handleForm]);
+  }, [handleDelete, handleForm, objStatus, handleChangeStatus, isPending]);
 
   return (
     <div className="panel">
@@ -69,6 +107,9 @@ const Advertisement = () => {
           isShow={isOpen}
           setIsShow={setIsOpen}
           currentData={currentData}
+          onSuccess={(data) => {
+            setObjStatus((prev) => ({ ...prev, [data?.id]: data?.active }));
+          }}
         />
       )}
 
@@ -76,7 +117,7 @@ const Advertisement = () => {
         <ModalConfirm
           isShow={isDelete}
           setIsShow={setIsDelete}
-          CallAPi={useDeleteGroup}
+          CallAPi={useDeleteAds}
           onChange={(mutate) => mutate && mutate(currentData?.id)}
         />
       )}

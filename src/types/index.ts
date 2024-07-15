@@ -1,6 +1,5 @@
 import { CustomSelectProps } from "@/components/customFormField";
 import { optionSelect } from "@/hooks/useSelect";
-import { ICategory, IGroup, IPost } from "@/services/interface";
 import { DataTableColumn } from "mantine-datatable";
 import { Dispatch, SetStateAction } from "react";
 import { IconType } from "react-icons";
@@ -76,20 +75,6 @@ export interface ConfigListMXHType {
   Icon?: IconType;
   color?: string;
   link?: string;
-}
-
-
-export interface IListPost {
-  [key: string]: {
-    group: IGroup;
-    posts: {
-      [key: string]: {
-        list: IPost[],
-        onePost: IPost,
-        category: ICategory
-      }
-    };
-  };
 }
 
 export interface listNavHeaderParmas {

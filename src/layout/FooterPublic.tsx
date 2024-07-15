@@ -90,7 +90,7 @@ const FooterPublic = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0 z-0">
+        <div className="absolute bottom-0 z-0 block max-[1775px]:-left-[29px] max-[1685px]:hidden">
           <Image
             src={StaticImages.MIX04698_ly1}
             alt="lyly"
@@ -108,7 +108,7 @@ const FooterPublic = () => {
         >
           <Image
             src={StaticImages.BANDOVIETNAM}
-            alt="lyly"
+            alt="bandovietnam"
             width={258}
             // height={280}
             priority

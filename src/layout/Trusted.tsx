@@ -28,7 +28,7 @@ const Trusted = () => {
             1240: {
               slidesPerView: 5,
             },
-            768: {
+            983: {
               slidesPerView: 4,
             },
             620: {

@@ -1,4 +1,4 @@
-import { ICategory, IProduct, MktPaginationResponse } from "../interface";
+import { ICategory, MktPaginationResponse } from "../interface";
 import fetchBase, { fetchBaseParams } from "./fetchBase";
 
 const getFetchAllCategory = async ({

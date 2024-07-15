@@ -1,7 +1,7 @@
 export * from "./auth";
 export * from "./category";
 export * from "./default";
-export * from "./group";
+export * from "./banner";
 export * from "./posts";
-export * from "./products";
+export * from "./ads";
 

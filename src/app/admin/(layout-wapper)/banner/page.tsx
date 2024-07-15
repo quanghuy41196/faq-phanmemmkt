@@ -5,9 +5,9 @@ import MantineTableCustom from "@/components/MantineTableCustom";
 import { ModalBanner, ModalConfirm } from "@/components/Modal";
 import { configTableBanner } from "@/config/configTable";
 import { pickBySearch } from "@/helper/utils";
-import { useDeleteCategory } from "@/services/framework/category/useDeleteCategory";
-import useGetAllCategory from "@/services/framework/category/useGetAllCategory";
-import { ICategory, ISearchCategory } from "@/services/interface";
+import { useDeleteBanner } from "@/services/framework/banner/useDeleteBanner";
+import useGetAllBanner from "@/services/framework/banner/useGetAllBanner";
+import { IBanner, ISearchBanner } from "@/services/interface";
 import { TDataColumnTable } from "@/types";
 import { useCallback, useMemo, useState } from "react";
 import { IoAdd } from "react-icons/io5";
@@ -15,26 +15,26 @@ import { IoAdd } from "react-icons/io5";
 const Banner = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const [currentData, setCurrentData] = useState<ICategory>();
-  const [configSearch, setConfigSearch] = useState<ISearchCategory>({
+  const [currentData, setCurrentData] = useState<IBanner>();
+  const [configSearch, setConfigSearch] = useState<ISearchBanner>({
     page: 1,
     limit: 50,
   });
-  const { data: dataBanner, isFetching } = useGetAllCategory(
+  const { data: dataBanner, isFetching } = useGetAllBanner(
     pickBySearch(configSearch)
   );
 
-  const handleForm = useCallback((data?: ICategory) => {
+  const handleForm = useCallback((data?: IBanner) => {
     setIsOpen(true);
     setCurrentData(data);
   }, []);
 
-  const handleDelete = useCallback((data?: ICategory) => {
+  const handleDelete = useCallback((data?: IBanner) => {
     setIsDelete(true);
     setCurrentData(data);
   }, []);
 
-  const newConfigTableBanner = useMemo((): TDataColumnTable<ICategory> => {
+  const newConfigTableBanner = useMemo((): TDataColumnTable<IBanner> => {
     return configTableBanner({
       handleDelete,
       handleForm,
@@ -76,7 +76,7 @@ const Banner = () => {
         <ModalConfirm
           isShow={isDelete}
           setIsShow={setIsDelete}
-          CallAPi={useDeleteCategory}
+          CallAPi={useDeleteBanner}
           onChange={(mutate) => mutate && mutate(currentData?.id)}
         />
       )}

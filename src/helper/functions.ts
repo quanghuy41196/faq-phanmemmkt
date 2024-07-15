@@ -1,10 +1,5 @@
 import { optionSelect } from "@/hooks/useSelect";
-import { IPost } from "@/services/interface";
-import {
-  IListPost,
-  currentConfigSildBarParams,
-  slidebarConfigProps,
-} from "@/types";
+import { currentConfigSildBarParams, slidebarConfigProps } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import moment from "moment";
 import slugify from "slugify";
@@ -198,4 +193,3 @@ export const slugUrl = (name: string, replacement: string = "-") => {
     trim: true,
   });
 };
-
