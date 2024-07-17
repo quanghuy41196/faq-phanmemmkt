@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "mkt_license",
+      name: "faq_phanmemmkt",
       exec_mode: "cluster",
       instances: "max", // Or a number of instances
       script: "node_modules/next/dist/bin/next",
@@ -14,6 +14,7 @@ module.exports = {
       },
       env_production: {
         APP_ENV: "prod", // APP_ENV=prod
+        PORT: 9000,
       },
     },
   ],
