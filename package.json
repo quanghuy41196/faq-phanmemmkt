@@ -7,7 +7,12 @@
     "dev:turbo": "next dev --turbo -p 9000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup": "pm2 deploy production setup",
+    "deploy:local": "next build && pm2 startOrRestart ecosystem.config.js --env local",
+    "deploy:dev": "next build && pm2 startOrRestart ecosystem.config.js --env development",
+    "deploy:prod": "next build && pm2 startOrRestart ecosystem.config.js --env production",
+    "deploy": "pm2 deploy production"
   },
   "dependencies": {
     "@mantine/core": "^6.0.19",
