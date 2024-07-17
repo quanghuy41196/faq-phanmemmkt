@@ -5,6 +5,8 @@ export const site = {
   copyright: `© Copyright 2013 by phần mềm MKT – Website đang chờ đăng ký với bộ
           công thương, nghiêm cấm sao chép dưới mọi hình thức. Mọi hành vi sao
           chép sẽ chịu hoàn toàn trách nhiệm`,
+  description:
+    "Tổng hợp câu hỏi thường gặp trong các lĩnh vực kinh doanh và nền tảng mạng xã hội liên quan tới Phần mềm MKT",
 };
 
 export const headersFormData = {

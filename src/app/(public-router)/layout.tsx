@@ -11,8 +11,11 @@ export const metadata: Metadata = {
     default: "Phần Mềm MKT",
     template: `%s | ${site.name}`,
   },
-  description:
-    "Hướng dẫn phần mềm MKT Hướng dẫn sử dụng, ứng dụng phần mềm marketing MKT vào kinh doanh, bán hàng online hỗ trợ tương tác Faceb...",
+  description: site.description,
+  robots: "index, follow",
+  verification: {
+    google: "i_r5UDf-Zj74nrBdCdb1eeTvN_ENEl_mje9tmpq7xwM",
+  },
 };
 
 const LayoutPublicRouter: FC<PropsWithChildren> = ({ children }) => {
@@ -23,7 +26,7 @@ const LayoutPublicRouter: FC<PropsWithChildren> = ({ children }) => {
       <div className="flex gap-2 mt-5">
         <BoxItemAds />
         <div className="mx-auto py-8 container">{children}</div>
-        <BoxItemAds position/>
+        <BoxItemAds position />
       </div>
       <FooterPublic />
     </div>
